@@ -5,17 +5,16 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/config/database.php';
 
 // Ensure staff is logged in
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
     exit();
 }
 
-// Validate reward_id from URL
+// 2. Validate that a valid reward ID was provided (never fall back to 1)
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: reward_management.php");
     exit();
 }
-
 $pdo = getDBConnection();
 $staff_id = $_SESSION['id'];
 $reward_id = intval($_GET['id']);

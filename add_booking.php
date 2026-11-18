@@ -7,6 +7,14 @@ require_once __DIR__ . '/config/database.php';
 $pdo = getDBConnection();
 $default_staff_id = $_SESSION['staff_id'] ?? ($_SESSION['id'] ?? '');
 $error_msg = '';
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: booking_management.php");
+    exit();
+}
 
 // 1. Handle form submission BEFORE any HTML is output
 if (isset($_POST['submit'])) {

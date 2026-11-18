@@ -1,11 +1,16 @@
 <?php 
 require_once __DIR__ . '/config/database.php';
 
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+
+// 2. Validate that a valid reward ID was provided (never fall back to 1)
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: promotion_management.php");
     exit();
 }
-
 $pdo = getDBConnection();
 $promotion_id = intval($_GET['id']);
 $error_msg = '';

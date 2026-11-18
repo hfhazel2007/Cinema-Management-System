@@ -9,7 +9,14 @@ if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
-
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: reward_management.php");
+    exit();
+}
 $pdo = getDBConnection();
 $staff_id = $_SESSION['id'];
 $error_msg = '';

@@ -5,8 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/config/database.php';
 
 // 1. Ensure staff is logged in
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
     exit();
 }
 

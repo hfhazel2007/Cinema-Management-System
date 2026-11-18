@@ -7,7 +7,14 @@ require_once __DIR__ . '/config/database.php';
 $pdo = getDBConnection();
 $default_staff = isset($_SESSION['id']) ? $_SESSION['id'] : 1001;
 $error_msg = '';
-
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit();
+}
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header("Location: fnb_management.php");
+    exit();
+}
 if (isset($_POST['submit'])) {
     $name        = trim($_POST['fnb_name']);
     $price       = floatval($_POST['fnb_price']);
